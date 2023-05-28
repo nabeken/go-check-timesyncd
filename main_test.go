@@ -81,6 +81,10 @@ func TestRunCheck(t *testing.T) {
 			Expected: "TIMESYNCD OK: NTP Server: 185.125.190.58 (ntp.ubuntu.com), Offset: 2.3ms, Packet Count: 6, Stratum: 2",
 		},
 		{
+			OutputFn: "warning_offset_output.txt",
+			Expected: "TIMESYNCD WARNING: Offset: 60.065ms > 50ms",
+		},
+		{
 			OutputFn: "large_offset_output.txt",
 			Expected: "TIMESYNCD CRITICAL: Offset: 41h45m31.391196s > 100ms",
 		},
