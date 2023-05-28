@@ -2,7 +2,7 @@
 Poll interval: 2min 8s (min: 32s; max 34min 8s)
          Leap: normal
       Version: 4
-      Stratum: 3
+      Stratum: 16
     Reference: A600B0C
     Precision: 1us (-26)
 Root distance: 343us (max: 5s)

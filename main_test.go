@@ -5,6 +5,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nabeken/nagiosplugin"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -38,7 +39,7 @@ func TestParseTimesyncStatus(t *testing.T) {
 			},
 		},
 		{
-			OutputFn: "ok_output.txt",
+			OutputFn: "normal_output.txt",
 			Expected: timesyncStatus{
 				ServerHost:    "ntp.ubuntu.com",
 				ServerAddress: "185.125.190.58",
@@ -68,6 +69,46 @@ func TestParseTimesyncStatus(t *testing.T) {
 	}
 }
 
+func TestRunCheck(t *testing.T) {
+	type testCase struct {
+		OutputFn string
+		Expected string
+	}
+
+	for _, tc := range []testCase{
+		{
+			OutputFn: "normal_output.txt",
+			Expected: "TIMESYNCD OK: NTP Server: 185.125.190.58 (ntp.ubuntu.com), Offset: 2.3ms, Packet Count: 6, Stratum: 2",
+		},
+		{
+			OutputFn: "large_offset_output.txt",
+			Expected: "TIMESYNCD CRITICAL: Offset: 41h45m31.391196s > 100ms",
+		},
+		{
+			OutputFn: "large_stratum_output.txt",
+			Expected: "TIMESYNCD CRITICAL: Stratum is out of order: 16",
+		},
+		{
+			OutputFn: "not_ok_output.txt",
+			Expected: "TIMESYNCD CRITICAL: Packet Count is out of order: 0, Stratum is out of order: 0",
+		},
+	} {
+		t.Run(tc.OutputFn, func(t *testing.T) {
+			check := nagiosplugin.NewCheck("TIMESYNCD")
+
+			opts := &_opts{
+				Warning:  50 * time.Millisecond,
+				Critical: 100 * time.Millisecond,
+			}
+
+			runCheck(opts, check, mustParseTimesyncStatus(mustReadTestData(tc.OutputFn)))
+
+			assert.Equal(t, tc.Expected, check.String())
+			t.Log(check.String())
+		})
+	}
+}
+
 func mustReadTestData(fn string) string {
 	b, err := os.ReadFile("_testdata/" + fn)
 	if err != nil {
@@ -75,6 +116,15 @@ func mustReadTestData(fn string) string {
 	}
 
 	return string(b)
+}
+
+func mustParseTimesyncStatus(result string) timesyncStatus {
+	status, err := parseTimesyncStatus(result)
+	if err != nil {
+		panic(err)
+	}
+
+	return status
 }
 
 func mustParseDuration(dur string) time.Duration {

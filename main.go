@@ -15,10 +15,12 @@ import (
 	"github.com/nabeken/nagiosplugin"
 )
 
-var opts struct {
-	Warning  time.Duration `short:"w" long:"warning" description:"offset time to result in warning"`
-	Critical time.Duration `short:"c" long:"critical" description:"offset time to result in critical"`
+type _opts struct {
+	Warning  time.Duration `short:"w" long:"warning" description:"absolute offset time to result in warning" default:"50ms"`
+	Critical time.Duration `short:"c" long:"critical" description:"absolute offset time to result in critical" default:"100ms"`
 }
+
+var opts _opts
 
 func main() {
 	if _, err := flags.Parse(&opts); err != nil {
@@ -31,6 +33,50 @@ func main() {
 
 	check := nagiosplugin.NewCheck("TIMESYNCD")
 	defer check.Finish()
+
+	// get the timesyncd status
+	ctx, cancel := context.WithTimeout(context.Background(), time.Minute)
+	defer cancel()
+
+	output, err := execTimedatectl(ctx, []string{"timesync-status"})
+	if err != nil {
+		check.Unknownf("failed to execute 'timedatectl timesync-status' command: %s", err)
+		return
+	}
+
+	status, err := parseTimesyncStatus(output)
+	if err != nil {
+		check.Unknownf("failed to parse the output from the command: %s", err)
+		return
+	}
+
+	runCheck(&opts, check, status)
+}
+
+func runCheck(opts *_opts, check *nagiosplugin.Check, status timesyncStatus) {
+	check.AddResultf(nagiosplugin.OK, "NTP Server: %s (%s)", status.ServerAddress, status.ServerHost)
+
+	absOffset := status.Offset.Abs()
+
+	if absOffset > opts.Critical.Abs() {
+		check.AddResultf(nagiosplugin.CRITICAL, "Offset: %s > %s", absOffset, opts.Critical.Abs())
+	} else if absOffset > opts.Warning.Abs() {
+		check.AddResultf(nagiosplugin.WARNING, "Offset: %s > %s", absOffset, opts.Warning.Abs())
+	} else {
+		check.AddResultf(nagiosplugin.OK, "Offset: %s", absOffset)
+	}
+
+	if status.PacketCount == 0 {
+		check.AddResultf(nagiosplugin.CRITICAL, "Packet Count is out of order: %d", status.PacketCount)
+	} else {
+		check.AddResultf(nagiosplugin.OK, "Packet Count: %d", status.PacketCount)
+	}
+
+	if status.Stratum == 0 || status.Stratum == 16 {
+		check.AddResultf(nagiosplugin.CRITICAL, "Stratum is out of order: %d", status.Stratum)
+	} else {
+		check.AddResultf(nagiosplugin.OK, "Stratum: %d", status.Stratum)
+	}
 }
 
 type timesyncStatus struct {
