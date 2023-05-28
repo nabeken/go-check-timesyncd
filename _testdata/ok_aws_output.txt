@@ -1,0 +1,13 @@
+       Server: 169.254.169.123 (169.254.169.123)
+Poll interval: 2min 8s (min: 32s; max 34min 8s)
+         Leap: normal
+      Version: 4
+      Stratum: 3
+    Reference: A600B0C
+    Precision: 1us (-26)
+Root distance: 343us (max: 5s)
+       Offset: -2.747ms
+        Delay: 276us
+       Jitter: 1.038ms
+ Packet count: 2
+    Frequency: +64.384ppm

@@ -1,0 +1,3 @@
+       Server: 169.254.169.124 (169.254.169.124)
+Poll interval: 1min 4s (min: 32s; max 34min 8s)
+ Packet count: 0

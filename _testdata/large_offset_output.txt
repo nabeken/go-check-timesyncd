@@ -1,0 +1,13 @@
+       Server: 169.254.169.123 (169.254.169.123)
+Poll interval: 32s (min: 32s; max 34min 8s)
+         Leap: normal
+      Version: 4
+      Stratum: 3
+    Reference: A684143
+    Precision: 1us (-26)
+Root distance: 404us (max: 5s)
+       Offset: -1d 17h 45min 31.391196s
+        Delay: 273us
+       Jitter: 0
+ Packet count: 1
+    Frequency: +34.413ppm
