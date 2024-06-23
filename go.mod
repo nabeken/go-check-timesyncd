@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/nabeken/nagiosplugin v1.1.1
-	github.com/stretchr/testify v1.8.3
+	github.com/stretchr/testify v1.9.0
 )
 
 require (
