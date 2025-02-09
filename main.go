@@ -12,7 +12,7 @@ import (
 	"time"
 
 	"github.com/jessevdk/go-flags"
-	"github.com/nabeken/nagiosplugin"
+	"github.com/nabeken/nagiosplugin/v2"
 )
 
 type _opts struct {

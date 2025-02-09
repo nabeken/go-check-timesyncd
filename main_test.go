@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nabeken/nagiosplugin"
+	"github.com/nabeken/nagiosplugin/v2"
 	"github.com/stretchr/testify/assert"
 )
 
