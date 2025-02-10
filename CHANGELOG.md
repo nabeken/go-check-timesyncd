@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.3](https://github.com/nabeken/go-check-timesyncd/compare/v0.3.2...v0.3.3) (2025-02-10)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/nabeken/nagiosplugin to v2 ([#86](https://github.com/nabeken/go-check-timesyncd/issues/86)) ([cd5ac37](https://github.com/nabeken/go-check-timesyncd/commit/cd5ac37998d62937c13f7846bdb3c38105b9cb11))
+* **deps:** update module github.com/stretchr/testify to v1.10.0 ([#76](https://github.com/nabeken/go-check-timesyncd/issues/76)) ([d24f10c](https://github.com/nabeken/go-check-timesyncd/commit/d24f10c0785122c414d433f0e2d4cc042f2f086b))
+
 ## [0.3.2](https://github.com/nabeken/go-check-timesyncd/compare/v0.3.1...v0.3.2) (2024-08-24)
 
 
