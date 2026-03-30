@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.5](https://github.com/nabeken/go-check-timesyncd/compare/v0.3.4...v0.3.5) (2026-03-30)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/nabeken/nagiosplugin/v2 to v2.0.2 ([#157](https://github.com/nabeken/go-check-timesyncd/issues/157)) ([3591bde](https://github.com/nabeken/go-check-timesyncd/commit/3591bdef01780e3377eb9a59d424c26e8e16d9dd))
+
 ## [0.3.4](https://github.com/nabeken/go-check-timesyncd/compare/v0.3.3...v0.3.4) (2026-03-14)
 
 
