@@ -6,7 +6,7 @@ toolchain go1.27.4
 
 require (
 	github.com/jessevdk/go-flags v1.6.1
-	github.com/nabeken/nagiosplugin/v2 v2.0.2
+	github.com/nabeken/nagiosplugin/v2 v2.0.3
 	github.com/stretchr/testify v1.12.1
 )
 
